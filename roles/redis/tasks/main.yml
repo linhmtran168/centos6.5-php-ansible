@@ -1,0 +1,6 @@
+---
+- name: install Redis server
+  yum: name=redis28u state=latest
+
+- name: ensure Redis is running
+  service: name=redis state=started enabled=true

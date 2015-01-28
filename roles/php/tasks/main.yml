@@ -1,0 +1,30 @@
+---
+- name: ensure PHP installed
+  yum: name={{ item }} state=latest
+  with_items:
+    - php56u-fpm
+    - php56u-common
+    - php56u-devel
+    - php56u-cli
+    - php56u-json
+    - php56u-curl
+    - php56u-intl
+    - php56u-pgsql
+    - php56u-gd
+    - php56u-mcrypt
+    - php56u-memcached
+
+- name: copy pool configuration
+  template: src=www.conf.j2 dest=/etc/php-fpm.d/www.conf
+
+- name: start php-fpm
+  service: name=php-fpm state=started enabled=true
+
+- name: install composer
+  get_url: url=https://getcomposer.org/composer.phar dest=/usr/local/bin/composer mode=0755 validate_certs=no
+
+- name: update composer
+  command: /usr/local/bin/composer self-update
+
+- name: copy php configuration
+  template: src=php.ini.j2 dest=/etc/php.ini

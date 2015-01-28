@@ -1,0 +1,28 @@
+---
+- name: set hostname
+  hostname: name={{ host_name }}
+
+- name: downloading and enable the EPEL repository definitions
+  command: rpm -Uvh --replacepkgs http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+
+- name: Downloading and enable the IUS repository definitions
+  command: rpm -Uvh --replacepkgs http://dl.iuscommunity.org/pub/ius/stable/CentOS/6/x86_64/ius-release-1.0-13.ius.centos6.noarch.rpm
+
+- name: install the 'Development tools' package group
+  yum: name="@Development tools" state=present
+
+- name: install necessary base packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - tmux
+    - git
+    - vim
+    - curl
+    - dstat
+    - ncurses-devel
+    - libselinux-python
+    - postfix
+
+
+- include: dotfiles.yml
+- include: deploy.yml

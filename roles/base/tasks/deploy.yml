@@ -1,0 +1,23 @@
+---
+- name: create default group for web application
+  group: name={{ group }} state=present
+
+- name: create a specific user for deploy and run the application
+  user: name={{ app_user }} groups={{ group }}
+
+- name: add this user with passwordless sudo
+  lineinfile: dest=/etc/sudoers state=present regexp='^deploy ALL\=NOPASSWD' line='deploy ALL=NOPASSWD:/sbin/service php-fpm restart, /usr/bin/supervisorctl restart {{ app_name }}_queue' validate='visudo -cf %s'
+
+- name: add public key to this user to support passwordless ssh
+  authorized_key: user={{ app_user }} key="{{item}}"
+  with_file:
+    - ~/.ssh/id_rsa.pub
+
+- name: create folder for hosting the app
+  file: path=/var/www/{{ app_name }} state=directory owner={{ app_user }} group={{  group }} mode=770 recurse=yes
+
+- name: create folder for Capistrano - releases
+  file: path=/var/www/{{ app_name }}/releases state=directory owner={{ app_user }} group={{  group }} mode=770 recurse=yes
+
+- name: create folder for Capistrano - shared
+  file: path=/var/www/{{ app_name }}/shared state=directory owner={{ app_user }} group={{  group }} mode=770 recurse=yes

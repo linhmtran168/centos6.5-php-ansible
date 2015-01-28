@@ -1,0 +1,6 @@
+[program:{{ app_name }}_queue]
+command=php /var/www/{{ app_name }}/current/artisan queue:listen --timeout=240
+autostart=true
+autorestart=true
+stderr_logfile={{ supervisor.log_folder }}/lara_oauth_queue.err.log
+stdout_logfile={{ supervisor.log_folder }}/lara_oauth_queue.out.log

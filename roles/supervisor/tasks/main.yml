@@ -1,0 +1,37 @@
+---
+- name: install python packages
+  yum: name={{ item }} state=latest
+  with_items:
+    - python27
+    - python27-setuptools
+
+- name: install pip
+  easy_install: name=pip executable=easy_install-2.7
+
+- name: install supervisord
+  pip: name=supervisor state=latest extra_args='--pre'
+
+- name: create the config folder
+  file: state=directory path={{ item }}
+  with_items:
+    - "{{ supervisor.config_folder }}"
+    - "{{ supervisor.log_folder }}"
+
+- name: copy configuration file
+  template: src=supervisord.conf.j2 dest={{ supervisor.conf_file }}
+
+- name: copy init script
+  template: src=supervisord.j2 dest=/etc/init.d/supervisord mode=0755
+
+- name: start supervisord service
+  service: name=supervisord pattern=/usr/bin/supervisord state=started enabled=yes
+
+- name: add Laravel queue supervisor config
+  template: src=lara_oauth_queue.ini.j2 dest={{ supervisor.config_folder }}/lara_oauth_queue.ini
+  notify:
+    - reload supervisor
+
+- meta: flush_handlers
+
+- name: start the laravel queue
+  supervisorctl: name={{ app_name }} state=started

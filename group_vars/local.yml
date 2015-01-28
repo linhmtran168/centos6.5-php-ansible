@@ -1,0 +1,28 @@
+---
+user: vagrant
+app_host: lara-oauth.app
+host_name: local_server
+
+postgresql:
+  user_name: homestead
+  user_password: secret
+  db_name: lara_oauth
+  version: 94
+  dot_version: "9.4"
+
+php:
+  display_errors: "On"
+  display_startup_errors: "Off"
+  memory_limit: "256M"
+  max_execution_time: "60"
+  realpath_cache_size: "32K"
+  upload_max_file_size: "64M"
+  post_max_size: "32M"
+  date_timezone: "UTC"
+
+supervisor:
+  config_folder: /etc/supervisor.d
+  log_folder: /var/log/supervisor
+  pid_file: /var/run/supervisord.pid
+  lock_file: /var/run/supervisord.lock
+  conf_file: /etc/supervisord.conf

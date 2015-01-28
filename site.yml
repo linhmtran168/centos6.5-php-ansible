@@ -1,0 +1,14 @@
+---
+- name: Basic PHP environement
+  hosts: all
+  user: "{{ user }}"
+  sudo: yes
+
+  roles:
+    - base
+    - php
+    - nginx
+    - postgresql
+    - redis
+    - nodejs
+    - supervisor
