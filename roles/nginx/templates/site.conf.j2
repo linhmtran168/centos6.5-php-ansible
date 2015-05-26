@@ -1,5 +1,5 @@
 server {
-    listen 80;
+    listen {{ app_port }};
     server_name {{ app_host }};
     root /var/www/{{ app_name }}/current/public;
 

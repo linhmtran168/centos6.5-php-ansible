@@ -46,9 +46,9 @@
 - name: remove default starting tmux when login
   lineinfile: dest=/home/{{ user }}/dotfiles/.zpreztorc regexp="(tmux).*(remote)" state=absent
 
-- name: link zpreztorc theme
-  file: state=link src=/home/{{ user }}/dotfiles/{{ item}} path=/home/{{ user }}/.zprezto/modules/prompt/functions/{{ item }}
-  with_items:
-    - prompt_superlinh_setup
-  sudo: yes
-  sudo_user: "{{ user }}"
+# - name: link zpreztorc theme
+#   file: state=link src=/home/{{ user }}/dotfiles/{{ item}} path=/home/{{ user }}/.zprezto/modules/prompt/functions/{{ item }}
+#   with_items:
+#     - prompt_superlinh_setup
+#   sudo: yes
+#   sudo_user: "{{ user }}"

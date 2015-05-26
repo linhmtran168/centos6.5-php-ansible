@@ -1,7 +1,10 @@
 ---
 user: vagrant
 app_host: lara-oauth.app
+app_port: 8888
 host_name: local_server
+app_env: test
+key_file: ~/.ssh/id_rsa.pub
 
 postgresql:
   user_name: homestead

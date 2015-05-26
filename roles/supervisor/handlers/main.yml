@@ -1,3 +1,3 @@
 ---
 - name: reload supervisor
-  shell: supervisorctl reread && supervisorctl update
+  shell: supervisorctl -c {{ supervisor.config_folder}}/supervisord.conf reread && supervisorctl -c {{ supervisor.config_folder }}/supervisord.conf update

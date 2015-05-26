@@ -1,6 +1,8 @@
 [program:{{ app_name }}_queue]
-command=php /var/www/{{ app_name }}/current/artisan queue:listen --timeout=240
+command=php artisan queue:listen --timeout=240 --sleep=10 --tries=3 --env={{ app_env}}
+user={{ app_user }}
+directory=/var/www/{{ app_name }}/current
 autostart=true
 autorestart=true
-stderr_logfile={{ supervisor.log_folder }}/lara_oauth_queue.err.log
-stdout_logfile={{ supervisor.log_folder }}/lara_oauth_queue.out.log
+stderr_logfile={{ supervisor.log_folder }}/{{ app_name }}_queue.err.log
+stdout_logfile={{ supervisor.log_folder }}/{{ app_name }}_queue.out.log

@@ -11,7 +11,7 @@
 - name: add public key to this user to support passwordless ssh
   authorized_key: user={{ app_user }} key="{{item}}"
   with_file:
-    - ~/.ssh/id_rsa.pub
+    - "{{ key_file }}"
 
 - name: create folder for hosting the app
   file: path=/var/www/{{ app_name }} state=directory owner={{ app_user }} group={{  group }} mode=770 recurse=yes
